@@ -1,0 +1,834 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: "Creates a VPC for application account"
+Parameters:
+  VPCName:
+    Description: The name of the VPC being created
+    Type: String
+    Default: "vpc-one-db-dev-qa-zhy-vpc1"
+  VPCCidr:
+    Description: CIDR block for application VPC
+    Type: String
+    Default: '10.64.8.0/21'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  TransitPublic1AZaSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ a
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  TransitPublic1AZbSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ b
+    Type: String
+    Default: '10.64.8.64/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  TransitPublic1AZcSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ c
+    Type: String
+    Default: '10.64.8.128/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  TransitPrivate1AZaSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ a
+    Type: String
+    Default: '10.64.8.16/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  TransitPrivate1AZbSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ b
+    Type: String
+    Default: '10.64.8.80/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  TransitPrivate1AZcSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ c
+    Type: String
+    Default: '10.64.8.144/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  TransitPrivate2AZaSubnetCidr:
+    Description: CIDR block for transit-private2 subnet in AZ a
+    Type: String
+    Default: '10.64.8.32/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  TransitPrivate2AZbSubnetCidr:
+    Description: CIDR block for transit-private2 subnet in AZ b
+    Type: String
+    Default: '10.64.8.96/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  TransitPrivate2AZcSubnetCidr:
+    Description: CIDR block for transit-private2 subnet in AZ c
+    Type: String
+    Default: '10.64.8.160/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  AppPrivate1AZaSubnetCidr:
+    Description: CIDR block for app-private1 subnet in AZ a
+    Type: String
+    Default: '10.64.9.0/25'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  AppPrivate1AZbSubnetCidr:
+    Description: CIDR block for app-private1 subnet in AZ b
+    Type: String
+    Default: '10.64.11.0/25'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  AppPrivate1AZcSubnetCidr:
+    Description: CIDR block for app-private1 subnet in AZ c
+    Type: String
+    Default: '10.64.13.0/25'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  AppPrivate2AZaSubnetCidr:
+    Description: CIDR block for app-private2 subnet in AZ a
+    Type: String
+    Default: '10.64.9.128/25'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  AppPrivate2AZbSubnetCidr:
+    Description: CIDR block for app-private2 subnet in AZ b
+    Type: String
+    Default: '10.64.11.128/25'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  AppPrivate2AZcSubnetCidr:
+    Description: CIDR block for app-private2 subnet in AZ c
+    Type: String
+    Default: '10.64.13.128/25'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  AppPrivate3AZaSubnetCidr:
+    Description: CIDR block for app-private3 subnet in AZ a
+    Type: String
+    Default: '10.64.10.0/25'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  AppPrivate3AZbSubnetCidr:
+    Description: CIDR block for app-private3 subnet in AZ b
+    Type: String
+    Default: '10.64.12.0/25'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  AppPrivate3AZcSubnetCidr:
+    Description: CIDR block for app-private3 subnet in AZ c
+    Type: String
+    Default: '10.64.14.0/25'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+
+Mappings:
+  SubnetName:
+    transit-public1-a:
+      Name: "sn-onedb-dev-qa-zhy-priv-a-transit-public1"
+    transit-public1-b:
+      Name: "sn-onedb-dev-qa-zhy-priv-b-transit-public1"
+    transit-public1-c:
+      Name: "sn-onedb-dev-qa-zhy-priv-c-transit-public1"
+    transit-private1-a:
+      Name: "sn-onedb-dev-qa-zhy-priv-a-transit-private1"
+    transit-private1-b:
+      Name: "sn-onedb-dev-qa-zhy-priv-b-transit-private1"
+    transit-private1-c:
+      Name: "sn-onedb-dev-qa-zhy-priv-c-transit-private1"
+    transit-private2-a:
+      Name: "sn-onedb-dev-qa-zhy-priv-a-transit-private2"
+    transit-private2-b:
+      Name: "sn-onedb-dev-qa-zhy-priv-b-transit-private2"
+    transit-private2-c:
+      Name: "sn-onedb-dev-qa-zhy-priv-c-transit-private2"
+    app-private1-a:
+      Name: "sn-onedb-dev-qa-zhy-priv-a-app-private1"
+    app-private1-b:
+      Name: "sn-onedb-dev-qa-zhy-priv-b-app-private1"
+    app-private1-c:
+      Name: "sn-onedb-dev-qa-zhy-priv-c-app-private1"
+    app-private2-a:
+      Name: "sn-onedb-dev-qa-zhy-priv-a-app-private2"
+    app-private2-b:
+      Name: "sn-onedb-dev-qa-zhy-priv-b-app-private2"
+    app-private2-c:
+      Name: "sn-onedb-dev-qa-zhy-priv-c-app-private2"
+    app-private3-a:
+      Name: "sn-onedb-dev-qa-zhy-priv-a-app-private3"
+    app-private3-b:
+      Name: "sn-onedb-dev-qa-zhy-priv-b-app-private3"
+    app-private3-c:
+      Name: "sn-onedb-dev-qa-zhy-priv-c-app-private3"
+  AZRegion:
+    cn-northwest-1:
+      AZs: ["a", "b", "c"]
+
+Resources:
+  VPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      EnableDnsSupport: "true"
+      EnableDnsHostnames: "true"
+      CidrBlock: !Ref 'VPCCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Ref 'VPCName'
+  TransitPublic1AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'TransitPublic1AZaSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "transit-public1-a"
+              - "Name"
+  TransitPublic1AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'TransitPublic1AZbSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "transit-public1-b"
+              - "Name"
+  TransitPublic1AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'TransitPublic1AZcSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "transit-public1-c"
+              - "Name"
+
+  TransitPrivate1AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'TransitPrivate1AZaSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "transit-private1-a"
+              - "Name"
+  TransitPrivate1AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'TransitPrivate1AZbSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "transit-private1-b"
+              - "Name"
+  TransitPrivate1AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'TransitPrivate1AZcSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "transit-private1-c"
+              - "Name"
+
+  TransitPrivate2AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'TransitPrivate2AZaSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "transit-private2-a"
+              - "Name"
+  TransitPrivate2AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'TransitPrivate2AZbSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "transit-private2-b"
+              - "Name"
+  TransitPrivate2AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'TransitPrivate2AZcSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "transit-private2-c"
+              - "Name"
+
+  AppPrivate1AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'AppPrivate1AZaSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "app-private1-a"
+              - "Name"
+  AppPrivate1AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'AppPrivate1AZbSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "app-private1-b"
+              - "Name"
+  AppPrivate1AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'AppPrivate1AZcSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "app-private1-c"
+              - "Name"
+
+  AppPrivate2AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'AppPrivate2AZaSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "app-private2-a"
+              - "Name"
+  AppPrivate2AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'AppPrivate2AZbSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "app-private2-b"
+              - "Name"
+  AppPrivate2AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'AppPrivate2AZcSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "app-private2-c"
+              - "Name"
+
+  AppPrivate3AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'AppPrivate3AZaSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "app-private3-a"
+              - "Name"
+  AppPrivate3AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'AppPrivate3AZbSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "app-private3-b"
+              - "Name"
+  AppPrivate3AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'AppPrivate3AZcSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "SubnetName"
+              - "app-private3-c"
+              - "Name"
+
+  InternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join
+            - ''
+            - - 'igw-'
+              - !Ref "VPCName"
+  GatewayToInternet:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      InternetGatewayId:
+        Ref: "InternetGateway"
+
+  PublicRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join
+            - ''
+            - - 'rt-'
+              - !Ref "VPCName"
+              - '-public'
+  PublicRoute:
+    Type: "AWS::EC2::Route"
+    DependsOn: "GatewayToInternet"
+    Properties:
+      RouteTableId:
+        Ref: "PublicRouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId:
+        Ref: "InternetGateway"
+  TransitPublic1AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "TransitPublic1AZaSubnet"
+      RouteTableId:
+        Ref: "PublicRouteTable"
+  TransitPublic1AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "TransitPublic1AZbSubnet"
+      RouteTableId:
+        Ref: "PublicRouteTable"
+  TransitPublic1AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "TransitPublic1AZcSubnet"
+      RouteTableId:
+        Ref: "PublicRouteTable"
+
+  ElasticIPAZa:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: "vpc"
+  ElasticIPAZb:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: "vpc"
+  ElasticIPAZc:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: "vpc"
+
+  NATGatewayAZa:
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - "ElasticIPAZa"
+          - "AllocationId"
+      SubnetId:
+        Ref: "TransitPublic1AZaSubnet"
+  NATGatewayAZb:
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - "ElasticIPAZb"
+          - "AllocationId"
+      SubnetId:
+        Ref: "TransitPublic1AZbSubnet"
+  NATGatewayAZc:
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - "ElasticIPAZc"
+          - "AllocationId"
+      SubnetId:
+        Ref: "TransitPublic1AZcSubnet"
+
+  TransitPrivate1RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join
+            - ''
+            - - 'rt-'
+              - !Ref "VPCName"
+              - '-transit-private1'
+  TransitPrivate2RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join
+            - ''
+            - - 'rt-'
+              - !Ref "VPCName"
+              - '-transit-private2'
+  LambdaPrivate1RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join
+            - ''
+            - - 'rt-'
+              - !Ref "VPCName"
+              - '-lambda-private1'
+  LambdaPrivate2RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join
+            - ''
+            - - 'rt-'
+              - !Ref "VPCName"
+              - '-lambda-private2'
+  LambdaPrivate3RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "VPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join
+            - ''
+            - - 'rt-'
+              - !Ref "VPCName"
+              - '-lambda-private3'
+
+  LambdaPrivate1RouteToInternet:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId:
+        Ref: "LambdaPrivate1RouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      NatGatewayId:
+        Ref: "NATGatewayAZa"
+  LambdaPrivate2RouteToInternet:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId:
+        Ref: "LambdaPrivate2RouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      NatGatewayId:
+        Ref: "NATGatewayAZb"
+  LambdaPrivate3RouteToInternet:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId:
+        Ref: "LambdaPrivate3RouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      NatGatewayId:
+        Ref: "NATGatewayAZc"
+#
+#Add route to vRouter
+#
+
+  TransitPrivate1AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "TransitPrivate1AZaSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate1RouteTable"
+  TransitPrivate1AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "TransitPrivate1AZbSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate1RouteTable"
+  TransitPrivate1AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "TransitPrivate1AZcSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate2RouteTable"
+  TransitPrivate2AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "TransitPrivate2AZaSubnet"
+      RouteTableId:
+        Ref: "LambdaPrivate1RouteTable"
+  TransitPrivate2AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "TransitPrivate2AZbSubnet"
+      RouteTableId:
+        Ref: "LambdaPrivate2RouteTable"
+  TransitPrivate2AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "TransitPrivate2AZcSubnet"
+      RouteTableId:
+        Ref: "LambdaPrivate3RouteTable"
+  AppPrivate1AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "AppPrivate1AZaSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate1RouteTable"
+  AppPrivate1AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "AppPrivate1AZbSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate1RouteTable"
+  AppPrivate1AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "AppPrivate1AZcSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate2RouteTable"
+  AppPrivate2AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "AppPrivate2AZaSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate1RouteTable"
+  AppPrivate2AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "AppPrivate2AZbSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate1RouteTable"
+  AppPrivate2AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "AppPrivate2AZcSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate2RouteTable"
+  AppPrivate3AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "AppPrivate3AZaSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate1RouteTable"
+  AppPrivate3AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "AppPrivate3AZbSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate1RouteTable"
+  AppPrivate3AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "AppPrivate3AZcSubnet"
+      RouteTableId:
+        Ref: "TransitPrivate2RouteTable"
+
+Outputs:
+
+  VPCId:
+    Description: "VPCId of VPC"
+    Value:
+      Ref: "VPC"
