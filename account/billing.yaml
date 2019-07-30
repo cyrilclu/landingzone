@@ -1,0 +1,116 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create IAM roles for billing account
+
+Parameters:
+  AccountName:
+    Description: The name of account.
+    Type: String
+    Default: "billing"
+  IdentityProviderName:
+    Description: The name of identity provider.
+    Type: String
+    Default: "Azure"
+
+Resources:
+  FederatedBillingAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-billing-admin'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/job-function/Billing
+      Path: "/"
+  FederatedFullAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-full-admin'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/AdministratorAccess
+      Path: "/"
+  FederatedSecurityAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-security-admin'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/SecurityAudit
+      Path: "/"
+
+Outputs:
+  FederatedFullAdminRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedFullAdminRole
+      - Arn
+    Description: The ARN value of the FederatedFullAdminRole Role with IAM AdministratorAccess permissions.
+  FederatedSecurityAdminRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedSecurityAdminRole
+      - Arn
+    Description: The ARN value of the FederatedSecurityAdminRole Role with IAM SecurityAudit permissions.
+  FederatedBillingAdminRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedBillingAdminRole
+      - Arn
+    Description: The ARN value of the FederatedBillingAdminRole Role with IAM Billing permissions.

@@ -1,0 +1,118 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create IAM roles for logging account
+
+Parameters:
+  AccountName:
+    Description: The name of account.
+    Type: String
+    Default: "logging"
+  IdentityProviderName:
+    Description: The name of identity provider.
+    Type: String
+    Default: "Azure"
+
+Resources:
+  FederatedSecurityAuditorRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-security-auditor'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/SecurityAudit
+      Path: "/"
+  FederatedLoggingAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-logging-admin'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/CloudWatchLogsFullAccess
+      - arn:aws-cn:iam::aws:policy/AWSCloudTrailFullAccess
+      Path: "/"
+  FederatedLoggingViewerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-logging-viewer'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/CloudWatchLogsReadOnlyAccess
+      - arn:aws-cn:iam::aws:policy/AWSCloudTrailReadOnlyAccess
+      Path: "/"
+
+Outputs:
+  FederatedSecurityAuditorRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedSecurityAuditorRole
+      - Arn
+    Description: The ARN value of the FederatedSecurityAuditorRole Role with IAM SecurityAudit permissions.
+  FederatedLoggingAdminRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedLoggingAdminRole
+      - Arn
+    Description: The ARN value of the FederatedLoggingAdminRole Role with IAM CloudWatchLogsFullAccess and AWSCloudTrailFullAccess permissions.
+  FederatedLoggingViewerRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedLoggingViewerRole
+      - Arn
+    Description: The ARN value of the FederatedLoggingViewerRole Role with IAM CloudWatchLogsReadOnlyAccess and AWSCloudTrailReadOnlyAccess permissions.

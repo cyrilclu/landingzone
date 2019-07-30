@@ -1,0 +1,183 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create IAM roles for security account
+
+Parameters:
+  AccountName:
+    Description: The name of account.
+    Type: String
+    Default: "security"
+  IdentityProviderName:
+    Description: The name of identity provider.
+    Type: String
+    Default: "Azure"
+
+Resources:
+  FederatedFullAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-full-admin'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/AdministratorAccess
+      Path: "/"
+  FederatedIamAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-iam-admin'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/IAMFullAccess
+      Path: "/"
+  FederatedSecurityAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-security-admin'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/SecurityAudit
+      Path: "/"
+  FederatedSecurityAuditorRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-security-auditor'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/SecurityAudit
+      Path: "/"
+  FederatedLoggingAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join
+        - ''
+        - - 'r-aad-'
+          - !Ref "AccountName"
+          - '-logging-admin'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action: sts:AssumeRoleWithSAML
+          Principal:
+            Federated:
+              Fn::Join:
+              - ''
+              - - 'arn:aws-cn:iam::'
+                - Ref: AWS::AccountId
+                - ":saml-provider/"
+                - !Ref "IdentityProviderName"
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.amazonaws.cn/saml
+      ManagedPolicyArns:
+      - arn:aws-cn:iam::aws:policy/CloudWatchLogsFullAccess
+      - arn:aws-cn:iam::aws:policy/AWSCloudTrailFullAccess
+      Path: "/"
+
+Outputs:
+  FederatedFullAdminRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedFullAdminRole
+      - Arn
+    Description: The ARN value of the FederatedFullAdminRole Role with IAM AdministratorAccess permissions.
+  FederatedIamAdminRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedIamAdminRole
+      - Arn
+    Description: The ARN value of the FederatedIamAdminRole Role with IAM IAMFullAccess permissions.
+  FederatedSecurityAdminRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedSecurityAdminRole
+      - Arn
+    Description: The ARN value of the FederatedSecurityAdminRole Role with IAM SecurityAudit permissions.
+  FederatedSecurityAuditorRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedSecurityAuditorRole
+      - Arn
+    Description: The ARN value of the FederatedSecurityAuditorRole Role with IAM SecurityAudit permissions.
+  FederatedLoggingAdminRoleArn:
+    Value:
+      Fn::GetAtt:
+      - FederatedLoggingAdminRole
+      - Arn
+    Description: The ARN value of the FederatedLoggingAdminRole Role with IAM CloudWatchLogsFullAccess and AWSCloudTrailFullAccess permissions.

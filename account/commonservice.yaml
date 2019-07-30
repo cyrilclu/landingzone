@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: 2010-09-09
-Description: Create IAM roles for application account
+Description: Create IAM roles for common service account
 
 Parameters:
   AccountName:

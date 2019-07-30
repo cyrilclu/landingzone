@@ -1,45 +1,18 @@
 ---
 AWSTemplateFormatVersion: 2010-09-09
-Description: Create IAM roles for application account
+Description: Create iam roles for cloud infra account
 
 Parameters:
   AccountName:
     Description: The name of account.
     Type: String
-    Default: ""
+    Default: "cloud-infra"
   IdentityProviderName:
     Description: The name of identity provider.
     Type: String
     Default: "Azure"
 
 Resources:
-  FederatedPowerUserRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: !Join
-        - ''
-        - - 'r-aad-'
-          - !Ref "AccountName"
-          - '-poweruser'
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          Effect: Allow
-          Action: sts:AssumeRoleWithSAML
-          Principal:
-            Federated:
-              Fn::Join:
-              - ''
-              - - 'arn:aws-cn:iam::'
-                - Ref: AWS::AccountId
-                - ":saml-provider/"
-                - !Ref "IdentityProviderName"
-          Condition:
-            StringEquals:
-              SAML:aud: https://signin.amazonaws.cn/saml
-      ManagedPolicyArns:
-      - arn:aws-cn:iam::aws:policy/PowerUserAccess
-      Path: "/"
   FederatedFullAdminRole:
     Type: AWS::IAM::Role
     Properties:
@@ -289,12 +262,6 @@ Resources:
       Path: "/"
 
 Outputs:
-  FederatedPowerUserRoleArn:
-    Value:
-      Fn::GetAtt:
-      - FederatedPowerUserRole
-      - Arn
-    Description: The ARN value of the FederatedPowerUserRole Role with IAM PowerUserAccess permissions.
   FederatedFullAdminRoleArn:
     Value:
       Fn::GetAtt:
