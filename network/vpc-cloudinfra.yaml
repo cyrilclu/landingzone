@@ -1,0 +1,547 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: "Creates VPCs for cloud infra account"
+Parameters:
+  SharedServicesVPCCidr:
+    Description: CIDR block for application VPC
+    Type: String
+    Default: '10.64.8.0/21'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesTransitPublic1AZaSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ a of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesTransitPublic1AZbSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ b of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesTransitPublic1AZcSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ c of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesTransitPrivate1AZaSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ a of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesTransitPrivate1AZbSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ b of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesTransitPrivate1AZcSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ c of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesTransitPrivate2AZaSubnetCidr:
+    Description: CIDR block for transit-private2 subnet in AZ a of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesTransitPrivate2AZbSubnetCidr:
+    Description: CIDR block for transit-private2 subnet in AZ b of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesTransitPrivate2AZcSubnetCidr:
+    Description: CIDR block for transit-private2 subnet in AZ c of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesAppPrivate1AZaSubnetCidr:
+    Description: CIDR block for app-private1 subnet in AZ a of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesAppPrivate1AZbSubnetCidr:
+    Description: CIDR block for app-private1 subnet in AZ b of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  SharedServicesAppPrivate1AZcSubnetCidr:
+    Description: CIDR block for app-private1 subnet in AZ c of shared services VPC
+    Type: String
+    Default: '10.64.8.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+
+
+
+Mappings:
+  VPCName:
+    sharedservices:
+      Name: vpc-cloud-infra-zhy-shared-services-vpc1
+    transit:
+      Name: vpc-cloud-infra-zhy-transit-vpc1
+    inbound:
+      Name: vpc-cloud-infra-zhy-inbound-vpc1
+    outbound:
+      Name: vpc-cloud-infra-zhy-outbound-vpc1
+  AZRegion:
+    cn-northwest-1:
+      AZs: ["a", "b", "c"]
+
+Resources:
+  SharedServicesVPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      EnableDnsSupport: "true"
+      EnableDnsHostnames: "true"
+      CidrBlock: !Ref 'SharedServicesVPCCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "VPCName"
+              - "sharedservices"
+              - "Name"
+
+  SharedServicesTransitPublic1AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesTransitPublic1AZaSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-pub-a-transit-public1']]
+  SharedServicesTransitPublic1AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesTransitPublic1AZbSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-pub-b-transit-public1']]
+  SharedServicesTransitPublic1AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesTransitPublic1AZcSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-pub-c-transit-public1']]
+
+  SharedServicesTransitPrivate1AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesTransitPrivate1AZaSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-priv-a-transit-private1']]
+  SharedServicesTransitPrivate1AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesTransitPrivate1AZbSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-priv-b-transit-private1']]
+  SharedServicesTransitPrivate1AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesTransitPrivate1AZcSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-priv-c-transit-private1']]
+
+  SharedServicesTransitPrivate2AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesTransitPrivate2AZaSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-priv-a-transit-private2']]
+  SharedServicesTransitPrivate2AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesTransitPrivate2AZbSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-priv-b-transit-private2']]
+  SharedServicesTransitPrivate2AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesTransitPrivate2AZcSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-priv-c-transit-private2']]
+
+  SharedServicesAppPrivate1AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesAppPrivate1AZaSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-priv-a-app-private1']]
+  SharedServicesAppPrivate1AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesAppPrivate1AZbSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-priv-b-app-private1']]
+  SharedServicesAppPrivate1AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'SharedServicesAppPrivate1AZcSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, sharedservices, Name], '-priv-c-app-private1']]
+
+  SharedServicesInternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["igw-", !FindInMap [VPCName, sharedservices, Name]]]
+  SharedServicesGatewayToInternet:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      InternetGatewayId:
+        Ref: "SharedServicesInternetGateway"
+
+  SharedServicesPublicRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, sharedservices, Name], '-public']]
+  SharedServicesPublicRoute:
+    Type: "AWS::EC2::Route"
+    DependsOn: "SharedServicesGatewayToInternet"
+    Properties:
+      RouteTableId:
+        Ref: "SharedServicesPublicRouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId:
+        Ref: "SharedServicesInternetGateway"
+
+
+  SharedServicesTransitPublic1AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesTransitPublic1AZaSubnet"
+      RouteTableId:
+        Ref: "SharedServicesPublicRouteTable"
+  SharedServicesTransitPublic1AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesTransitPublic1AZbSubnet"
+      RouteTableId:
+        Ref: "SharedServicesPublicRouteTable"
+  SharedServicesTransitPublic1AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesTransitPublic1AZcSubnet"
+      RouteTableId:
+        Ref: "SharedServicesPublicRouteTable"
+
+  SharedServicesElasticIPAZa:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: "vpc"
+  SharedServicesElasticIPAZb:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: "vpc"
+  SharedServicesElasticIPAZc:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: "vpc"
+
+  SharedServicesNATGatewayAZa:
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - "SharedServicesElasticIPAZa"
+          - "AllocationId"
+      SubnetId:
+        Ref: "SharedServicesTransitPublic1AZaSubnet"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["nat-", !FindInMap [VPCName, sharedservices, Name], '-a-nat1']]
+  SharedServicesNATGatewayAZb:
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - "SharedServicesElasticIPAZb"
+          - "AllocationId"
+      SubnetId:
+        Ref: "SharedServicesTransitPublic1AZbSubnet"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["nat-", !FindInMap [VPCName, sharedservices, Name], '-b-nat1']]
+  SharedServicesNATGatewayAZc:
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - "SharedServicesElasticIPAZc"
+          - "AllocationId"
+      SubnetId:
+        Ref: "SharedServicesTransitPublic1AZcSubnet"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["nat-", !FindInMap [VPCName, sharedservices, Name], '-c-nat1']]
+
+  SharedServicesTransitPrivate1RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, sharedservices, Name], '-transit-private1']]
+  SharedServicesTransitPrivate2RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, sharedservices, Name], '-transit-private2']]
+
+  SharedServicesLambdaPrivate1RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, sharedservices, Name], '-lambda-private1']]
+  SharedServicesLambdaPrivate2RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, sharedservices, Name], '-lambda-private2']]
+  SharedServicesLambdaPrivate3RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "SharedServicesVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, sharedservices, Name], '-lambda-private3']]
+
+  SharedServicesLambdaPrivate1RouteToInternet:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId:
+        Ref: "SharedServicesLambdaPrivate1RouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      NatGatewayId:
+        Ref: "SharedServicesNATGatewayAZa"
+  SharedServicesLambdaPrivate2RouteToInternet:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId:
+        Ref: "SharedServicesLambdaPrivate2RouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      NatGatewayId:
+        Ref: "SharedServicesNATGatewayAZb"
+  SharedServicesLambdaPrivate3RouteToInternet:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId:
+        Ref: "SharedServicesLambdaPrivate3RouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      NatGatewayId:
+        Ref: "SharedServicesNATGatewayAZc"
+#
+#Add route to vRouter
+#
+
+  SharedServicesTransitPrivate1AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesTransitPrivate1AZaSubnet"
+      RouteTableId:
+        Ref: "SharedServicesTransitPrivate1RouteTable"
+  SharedServicesTransitPrivate1AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesTransitPrivate1AZbSubnet"
+      RouteTableId:
+        Ref: "SharedServicesTransitPrivate1RouteTable"
+  SharedServicesTransitPrivate1AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesTransitPrivate1AZcSubnet"
+      RouteTableId:
+        Ref: "SharedServicesTransitPrivate2RouteTable"
+  SharedServicesTransitPrivate2AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesTransitPrivate2AZaSubnet"
+      RouteTableId:
+        Ref: "SharedServicesLambdaPrivate1RouteTable"
+  SharedServicesTransitPrivate2AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesTransitPrivate2AZbSubnet"
+      RouteTableId:
+        Ref: "SharedServicesLambdaPrivate2RouteTable"
+  SharedServicesTransitPrivate2AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesTransitPrivate2AZcSubnet"
+      RouteTableId:
+        Ref: "SharedServicesLambdaPrivate3RouteTable"
+  SharedServicesAppPrivate1AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesAppPrivate1AZaSubnet"
+      RouteTableId:
+        Ref: "SharedServicesTransitPrivate1RouteTable"
+  SharedServicesAppPrivate1AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesAppPrivate1AZbSubnet"
+      RouteTableId:
+        Ref: "SharedServicesTransitPrivate1RouteTable"
+  SharedServicesAppPrivate1AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "SharedServicesAppPrivate1AZcSubnet"
+      RouteTableId:
+        Ref: "SharedServicesTransitPrivate2RouteTable"
+
+
+Outputs:
+
+  VPCId:
+    Description: "VPCId of VPC"
+    Value:
+      Ref: "SharedServicesVPC"

@@ -209,7 +209,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'TransitPrivate1AZaSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -229,7 +228,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'TransitPrivate1AZbSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -249,7 +247,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'TransitPrivate1AZcSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -270,7 +267,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'TransitPrivate2AZaSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -290,7 +286,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'TransitPrivate2AZbSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -310,7 +305,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'TransitPrivate2AZcSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -331,7 +325,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'AppPrivate1AZaSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -351,7 +344,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'AppPrivate1AZbSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -371,7 +363,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'AppPrivate1AZcSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -392,7 +383,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'AppPrivate2AZaSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -412,7 +402,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'AppPrivate2AZbSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -432,7 +421,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'AppPrivate2AZcSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -453,7 +441,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'AppPrivate3AZaSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -473,7 +460,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'AppPrivate3AZbSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
@@ -493,7 +479,6 @@ Resources:
           - "${AWS::Region}${AZ}"
           - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
       CidrBlock: !Ref 'AppPrivate3AZcSubnetCidr'
-      MapPublicIpOnLaunch: "true"
       Tags:
         -
           Key: "Name"
