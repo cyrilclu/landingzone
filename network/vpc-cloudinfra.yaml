@@ -112,8 +112,8 @@ Parameters:
     Default: '10.64.9.64/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-  TransitTransitPrivate1AZbSubnetCidr:
-    Description: CIDR block for transit-private1 subnet in AZ b of transit VPC
+  TransitTransitPrivate1AZcSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ c of transit VPC
     Type: String
     Default: '10.64.9.80/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -122,6 +122,49 @@ Parameters:
     Description: CIDR block for transit VPC
     Type: String
     Default: '10.64.9.0/21'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+
+  OutboundTransitPublic1AZaSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ a of outbound VPC
+    Type: String
+    Default: '10.64.10.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  OutboundTransitPublic1AZbSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ b of outbound VPC
+    Type: String
+    Default: '10.64.10.16/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  OutboundTransitPublic1AZcSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ c of outbound VPC
+    Type: String
+    Default: '10.64.10.32/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  OutboundTransitPrivate1AZaSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ a of outbound VPC
+    Type: String
+    Default: '10.64.10.48/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  OutboundTransitPrivate1AZbSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ b of outbound VPC
+    Type: String
+    Default: '10.64.10.64/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  OutboundTransitPrivate1AZcSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ c of outbound VPC
+    Type: String
+    Default: '10.64.10.80/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  OutboundVPCCidr:
+    Description: CIDR block for outbound VPC
+    Type: String
+    Default: '10.64.10.0/21'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
 
@@ -577,6 +620,7 @@ Resources:
       RouteTableId:
         Ref: "SharedServicesTransitPrivate2RouteTable"
 
+
   TransitVPC:
     Type: "AWS::EC2::VPC"
     Properties:
@@ -780,6 +824,210 @@ Resources:
       RouteTableId:
         Ref: "TransitTransitPrivate2RouteTable"
 
+
+  OutboundVPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      EnableDnsSupport: "true"
+      EnableDnsHostnames: "true"
+      CidrBlock: !Ref 'OutboundVPCCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "VPCName"
+              - "outbound"
+              - "Name"
+
+  OutboundTransitPublic1AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "OutboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'OutboundTransitPublic1AZaSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, outbound, Name], '-pub-a-transit-public1']]
+  OutboundTransitPublic1AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "OutboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'OutboundTransitPublic1AZbSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, outbound, Name], '-pub-b-transit-public1']]
+  OutboundTransitPublic1AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "OutboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'OutboundTransitPublic1AZcSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, outbound, Name], '-pub-c-transit-public1']]
+
+  OutboundTransitPrivate1AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "OutboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'OutboundTransitPrivate1AZaSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, outbound, Name], '-priv-a-transit-private1']]
+  OutboundTransitPrivate1AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "OutboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'OutboundTransitPrivate1AZbSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, outbound, Name], '-priv-b-transit-private1']]
+  OutboundTransitPrivate1AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "OutboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'OutboundTransitPrivate1AZcSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, outbound, Name], '-priv-c-transit-private1']]
+
+  OutboundInternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["igw-", !FindInMap [VPCName, outbound, Name]]]
+  OutboundGatewayToInternet:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId:
+        Ref: "OutboundVPC"
+      InternetGatewayId:
+        Ref: "OutboundInternetGateway"
+
+  OutboundPublicRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "OutboundVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, outbound, Name], '-public']]
+  OutboundPublicRoute:
+    Type: "AWS::EC2::Route"
+    DependsOn: "OutboundGatewayToInternet"
+    Properties:
+      RouteTableId:
+        Ref: "OutboundPublicRouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId:
+        Ref: "OutboundInternetGateway"
+
+  OutboundTransitPublic1AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "OutboundTransitPublic1AZaSubnet"
+      RouteTableId:
+        Ref: "OutboundPublicRouteTable"
+  OutboundTransitPublic1AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "OutboundTransitPublic1AZbSubnet"
+      RouteTableId:
+        Ref: "OutboundPublicRouteTable"
+  OutboundTransitPublic1AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "OutboundTransitPublic1AZcSubnet"
+      RouteTableId:
+        Ref: "OutboundPublicRouteTable"
+
+  OutboundTransitPrivate1RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "OutboundVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, outbound, Name], '-transit-private1']]
+  OutboundTransitPrivate2RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "OutboundVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, outbound, Name], '-transit-private2']]
+#
+# Add route to outbound vRouters
+#
+  OutboundTransitPrivate1AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "OutboundTransitPrivate1AZaSubnet"
+      RouteTableId:
+        Ref: "OutboundTransitPrivate1RouteTable"
+  OutboundTransitPrivate1AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "OutboundTransitPrivate1AZbSubnet"
+      RouteTableId:
+        Ref: "OutboundTransitPrivate1RouteTable"
+  OutboundTransitPrivate1AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "OutboundTransitPrivate1AZcSubnet"
+      RouteTableId:
+        Ref: "OutboundTransitPrivate2RouteTable"
+
 Outputs:
 
   SharedServicesVPCId:
@@ -790,3 +1038,7 @@ Outputs:
     Description: "VPCId of Transit VPC"
     Value:
       Ref: "TransitVPC"
+  OutboundVPCId:
+    Description: "VPCId of Outbound VPC"
+    Value:
+      Ref: "OutboundVPC"
