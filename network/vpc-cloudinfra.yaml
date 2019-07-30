@@ -6,208 +6,208 @@ Parameters:
   SharedServicesTransitPublic1AZaSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ a of Shared Services VPC
     Type: String
-    Default: '10.64.8.0/28'
+    Default: '10.64.40.0/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPublic1AZbSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ b of Shared Services VPC
     Type: String
-    Default: '10.64.8.16/28'
+    Default: '10.64.40.16/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPublic1AZcSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ c of Shared Services VPC
     Type: String
-    Default: '10.64.8.32/28'
+    Default: '10.64.40.32/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate1AZaSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ a of Shared Services VPC
     Type: String
-    Default: '10.64.8.48/28'
+    Default: '10.64.40.48/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate1AZbSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ b of Shared Services VPC
     Type: String
-    Default: '10.64.8.64/28'
+    Default: '10.64.40.64/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate1AZcSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ c of Shared Services VPC
     Type: String
-    Default: '10.64.8.80/28'
+    Default: '10.64.40.80/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate2AZaSubnetCidr:
     Description: CIDR block for transit-private2 subnet in AZ a of Shared Services VPC
     Type: String
-    Default: '10.64.8.96/28'
+    Default: '10.64.40.96/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate2AZbSubnetCidr:
     Description: CIDR block for transit-private2 subnet in AZ b of Shared Services VPC
     Type: String
-    Default: '10.64.8.112/28'
+    Default: '10.64.40.112/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate2AZcSubnetCidr:
     Description: CIDR block for transit-private2 subnet in AZ c of Shared Services VPC
     Type: String
-    Default: '10.64.8.128/28'
+    Default: '10.64.40.128/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesAppPrivate1AZaSubnetCidr:
     Description: CIDR block for app-private1 subnet in AZ a of Shared Services VPC
     Type: String
-    Default: '10.64.8.144/28'
+    Default: '10.64.40.144/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesAppPrivate1AZbSubnetCidr:
     Description: CIDR block for app-private1 subnet in AZ b of Shared Services VPC
     Type: String
-    Default: '10.64.8.160/28'
+    Default: '10.64.40.160/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesAppPrivate1AZcSubnetCidr:
     Description: CIDR block for app-private1 subnet in AZ c of Shared Services VPC
     Type: String
-    Default: '10.64.8.176/28'
+    Default: '10.64.40.176/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesVPCCidr:
     Description: CIDR block for Shared Services VPC
     Type: String
-    Default: '10.64.8.0/21'
+    Default: '10.64.40.0/21'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
 
   TransitTransitPublic1AZaSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ a of Transit VPC
     Type: String
-    Default: '10.64.9.0/28'
+    Default: '10.64.16.0/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitTransitPublic1AZbSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ b of Transit VPC
     Type: String
-    Default: '10.64.9.16/28'
+    Default: '10.64.16.16/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitTransitPublic1AZcSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ c of Transit VPC
     Type: String
-    Default: '10.64.9.32/28'
+    Default: '10.64.16.32/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitTransitPrivate1AZaSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ a of Transit VPC
     Type: String
-    Default: '10.64.9.48/28'
+    Default: '10.64.16.48/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitTransitPrivate1AZbSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ b of Transit VPC
     Type: String
-    Default: '10.64.9.64/28'
+    Default: '10.64.16.64/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitTransitPrivate1AZcSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ c of Transit VPC
     Type: String
-    Default: '10.64.9.80/28'
+    Default: '10.64.16.80/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitVPCCidr:
     Description: CIDR block for Transit VPC
     Type: String
-    Default: '10.64.9.0/21'
+    Default: '10.64.16.0/21'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
 
   OutboundTransitPublic1AZaSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ a of Outbound VPC
     Type: String
-    Default: '10.64.10.0/28'
+    Default: '10.64.24.0/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundTransitPublic1AZbSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ b of Outbound VPC
     Type: String
-    Default: '10.64.10.16/28'
+    Default: '10.64.24.16/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundTransitPublic1AZcSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ c of Outbound VPC
     Type: String
-    Default: '10.64.10.32/28'
+    Default: '10.64.24.32/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundTransitPrivate1AZaSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ a of Outbound VPC
     Type: String
-    Default: '10.64.10.48/28'
+    Default: '10.64.24.48/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundTransitPrivate1AZbSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ b of Outbound VPC
     Type: String
-    Default: '10.64.10.64/28'
+    Default: '10.64.24.64/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundTransitPrivate1AZcSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ c of Outbound VPC
     Type: String
-    Default: '10.64.10.80/28'
+    Default: '10.64.24.80/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundVPCCidr:
     Description: CIDR block for Outbound VPC
     Type: String
-    Default: '10.64.10.0/21'
+    Default: '10.64.24.0/21'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
 
   InboundTransitPublic1AZaSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ a of Inbound VPC
     Type: String
-    Default: '10.64.11.0/28'
+    Default: '10.64.32.0/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   InboundTransitPublic1AZbSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ b of Inbound VPC
     Type: String
-    Default: '10.64.11.16/28'
+    Default: '10.64.32.16/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   InboundTransitPublic1AZcSubnetCidr:
     Description: CIDR block for transit-public1 subnet in AZ c of Inbound VPC
     Type: String
-    Default: '10.64.11.32/28'
+    Default: '10.64.32.32/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   InboundTransitPrivate1AZaSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ a of Inbound VPC
     Type: String
-    Default: '10.64.11.48/28'
+    Default: '10.64.32.48/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   InboundTransitPrivate1AZbSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ b of Inbound VPC
     Type: String
-    Default: '10.64.11.64/28'
+    Default: '10.64.32.64/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   InboundTransitPrivate1AZcSubnetCidr:
     Description: CIDR block for transit-private1 subnet in AZ c of Inbound VPC
     Type: String
-    Default: '10.64.11.80/28'
+    Default: '10.64.32.80/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   InboundVPCCidr:
     Description: CIDR block for Inbound VPC
     Type: String
-    Default: '10.64.11.0/21'
+    Default: '10.64.32.0/21'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
 
