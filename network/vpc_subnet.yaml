@@ -123,43 +123,6 @@ Parameters:
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
 
 Mappings:
-  SubnetName:
-    transit-public1-a:
-      Name: "sn-onedb-dev-qa-zhy-priv-a-transit-public1"
-    transit-public1-b:
-      Name: "sn-onedb-dev-qa-zhy-priv-b-transit-public1"
-    transit-public1-c:
-      Name: "sn-onedb-dev-qa-zhy-priv-c-transit-public1"
-    transit-private1-a:
-      Name: "sn-onedb-dev-qa-zhy-priv-a-transit-private1"
-    transit-private1-b:
-      Name: "sn-onedb-dev-qa-zhy-priv-b-transit-private1"
-    transit-private1-c:
-      Name: "sn-onedb-dev-qa-zhy-priv-c-transit-private1"
-    transit-private2-a:
-      Name: "sn-onedb-dev-qa-zhy-priv-a-transit-private2"
-    transit-private2-b:
-      Name: "sn-onedb-dev-qa-zhy-priv-b-transit-private2"
-    transit-private2-c:
-      Name: "sn-onedb-dev-qa-zhy-priv-c-transit-private2"
-    app-private1-a:
-      Name: "sn-onedb-dev-qa-zhy-priv-a-app-private1"
-    app-private1-b:
-      Name: "sn-onedb-dev-qa-zhy-priv-b-app-private1"
-    app-private1-c:
-      Name: "sn-onedb-dev-qa-zhy-priv-c-app-private1"
-    app-private2-a:
-      Name: "sn-onedb-dev-qa-zhy-priv-a-app-private2"
-    app-private2-b:
-      Name: "sn-onedb-dev-qa-zhy-priv-b-app-private2"
-    app-private2-c:
-      Name: "sn-onedb-dev-qa-zhy-priv-c-app-private2"
-    app-private3-a:
-      Name: "sn-onedb-dev-qa-zhy-priv-a-app-private3"
-    app-private3-b:
-      Name: "sn-onedb-dev-qa-zhy-priv-b-app-private3"
-    app-private3-c:
-      Name: "sn-onedb-dev-qa-zhy-priv-c-app-private3"
   AZRegion:
     cn-northwest-1:
       AZs: ["a", "b", "c"]
@@ -190,10 +153,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "transit-public1-a"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-pub-a-transit-public1'
   TransitPublic1AZbSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -209,10 +173,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "transit-public1-b"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-pub-b-transit-public1'
   TransitPublic1AZcSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -228,10 +193,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "transit-public1-c"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-pub-c-transit-public1'
 
   TransitPrivate1AZaSubnet:
     Type: "AWS::EC2::Subnet"
@@ -248,10 +214,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "transit-private1-a"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-a-transit-private1'
   TransitPrivate1AZbSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -267,10 +234,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "transit-private1-b"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-b-transit-private1'
   TransitPrivate1AZcSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -286,10 +254,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "transit-private1-c"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-c-transit-private1'
 
   TransitPrivate2AZaSubnet:
     Type: "AWS::EC2::Subnet"
@@ -306,10 +275,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "transit-private2-a"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-a-transit-private2'
   TransitPrivate2AZbSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -325,10 +295,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "transit-private2-b"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-b-transit-private2'
   TransitPrivate2AZcSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -344,10 +315,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "transit-private2-c"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-c-transit-private2'
 
   AppPrivate1AZaSubnet:
     Type: "AWS::EC2::Subnet"
@@ -364,10 +336,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "app-private1-a"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-a-app-private1'
   AppPrivate1AZbSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -383,10 +356,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "app-private1-b"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-b-app-private1'
   AppPrivate1AZcSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -402,10 +376,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "app-private1-c"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-c-app-private1'
 
   AppPrivate2AZaSubnet:
     Type: "AWS::EC2::Subnet"
@@ -422,10 +397,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "app-private2-a"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-a-app-private2'
   AppPrivate2AZbSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -441,10 +417,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "app-private2-b"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-b-app-private2'
   AppPrivate2AZcSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -460,10 +437,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "app-private2-c"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-c-app-private2'
 
   AppPrivate3AZaSubnet:
     Type: "AWS::EC2::Subnet"
@@ -480,10 +458,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "app-private3-a"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-a-app-private3'
   AppPrivate3AZbSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -499,10 +478,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "app-private3-b"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-b-app-private3'
   AppPrivate3AZcSubnet:
     Type: "AWS::EC2::Subnet"
     Properties:
@@ -518,10 +498,11 @@ Resources:
         -
           Key: "Name"
           Value:
-            Fn::FindInMap:
-              - "SubnetName"
-              - "app-private3-c"
-              - "Name"
+            Fn::Join:
+              - ''
+              - - 'sn-'
+                - !Ref "VPCName"
+                - '-priv-c-app-private3'
 
   InternetGateway:
     Type: "AWS::EC2::InternetGateway"
@@ -607,6 +588,15 @@ Resources:
           - "AllocationId"
       SubnetId:
         Ref: "TransitPublic1AZaSubnet"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::Join:
+              - ''
+              - - 'nat-'
+                - !Ref "VPCName"
+                - '-a-nat1'
   NATGatewayAZb:
     Type: "AWS::EC2::NatGateway"
     Properties:
@@ -616,6 +606,15 @@ Resources:
           - "AllocationId"
       SubnetId:
         Ref: "TransitPublic1AZbSubnet"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::Join:
+              - ''
+              - - 'nat-'
+                - !Ref "VPCName"
+                - '-b-nat1'
   NATGatewayAZc:
     Type: "AWS::EC2::NatGateway"
     Properties:
@@ -625,6 +624,15 @@ Resources:
           - "AllocationId"
       SubnetId:
         Ref: "TransitPublic1AZcSubnet"
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::Join:
+              - ''
+              - - 'nat-'
+                - !Ref "VPCName"
+                - '-c-nat1'
 
   TransitPrivate1RouteTable:
     Type: "AWS::EC2::RouteTable"
