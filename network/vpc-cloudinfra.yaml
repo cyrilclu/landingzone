@@ -4,167 +4,210 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: "Creates VPCs for cloud infra account"
 Parameters:
   SharedServicesTransitPublic1AZaSubnetCidr:
-    Description: CIDR block for transit-public1 subnet in AZ a of shared services VPC
+    Description: CIDR block for transit-public1 subnet in AZ a of Shared Services VPC
     Type: String
     Default: '10.64.8.0/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPublic1AZbSubnetCidr:
-    Description: CIDR block for transit-public1 subnet in AZ b of shared services VPC
+    Description: CIDR block for transit-public1 subnet in AZ b of Shared Services VPC
     Type: String
     Default: '10.64.8.16/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPublic1AZcSubnetCidr:
-    Description: CIDR block for transit-public1 subnet in AZ c of shared services VPC
+    Description: CIDR block for transit-public1 subnet in AZ c of Shared Services VPC
     Type: String
     Default: '10.64.8.32/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate1AZaSubnetCidr:
-    Description: CIDR block for transit-private1 subnet in AZ a of shared services VPC
+    Description: CIDR block for transit-private1 subnet in AZ a of Shared Services VPC
     Type: String
     Default: '10.64.8.48/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate1AZbSubnetCidr:
-    Description: CIDR block for transit-private1 subnet in AZ b of shared services VPC
+    Description: CIDR block for transit-private1 subnet in AZ b of Shared Services VPC
     Type: String
     Default: '10.64.8.64/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate1AZcSubnetCidr:
-    Description: CIDR block for transit-private1 subnet in AZ c of shared services VPC
+    Description: CIDR block for transit-private1 subnet in AZ c of Shared Services VPC
     Type: String
     Default: '10.64.8.80/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate2AZaSubnetCidr:
-    Description: CIDR block for transit-private2 subnet in AZ a of shared services VPC
+    Description: CIDR block for transit-private2 subnet in AZ a of Shared Services VPC
     Type: String
     Default: '10.64.8.96/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate2AZbSubnetCidr:
-    Description: CIDR block for transit-private2 subnet in AZ b of shared services VPC
+    Description: CIDR block for transit-private2 subnet in AZ b of Shared Services VPC
     Type: String
     Default: '10.64.8.112/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesTransitPrivate2AZcSubnetCidr:
-    Description: CIDR block for transit-private2 subnet in AZ c of shared services VPC
+    Description: CIDR block for transit-private2 subnet in AZ c of Shared Services VPC
     Type: String
     Default: '10.64.8.128/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesAppPrivate1AZaSubnetCidr:
-    Description: CIDR block for app-private1 subnet in AZ a of shared services VPC
+    Description: CIDR block for app-private1 subnet in AZ a of Shared Services VPC
     Type: String
     Default: '10.64.8.144/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesAppPrivate1AZbSubnetCidr:
-    Description: CIDR block for app-private1 subnet in AZ b of shared services VPC
+    Description: CIDR block for app-private1 subnet in AZ b of Shared Services VPC
     Type: String
     Default: '10.64.8.160/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesAppPrivate1AZcSubnetCidr:
-    Description: CIDR block for app-private1 subnet in AZ c of shared services VPC
+    Description: CIDR block for app-private1 subnet in AZ c of Shared Services VPC
     Type: String
     Default: '10.64.8.176/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   SharedServicesVPCCidr:
-    Description: CIDR block for shared services VPC
+    Description: CIDR block for Shared Services VPC
     Type: String
     Default: '10.64.8.0/21'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
 
   TransitTransitPublic1AZaSubnetCidr:
-    Description: CIDR block for transit-public1 subnet in AZ a of transit VPC
+    Description: CIDR block for transit-public1 subnet in AZ a of Transit VPC
     Type: String
     Default: '10.64.9.0/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitTransitPublic1AZbSubnetCidr:
-    Description: CIDR block for transit-public1 subnet in AZ b of transit VPC
+    Description: CIDR block for transit-public1 subnet in AZ b of Transit VPC
     Type: String
     Default: '10.64.9.16/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitTransitPublic1AZcSubnetCidr:
-    Description: CIDR block for transit-public1 subnet in AZ c of transit VPC
+    Description: CIDR block for transit-public1 subnet in AZ c of Transit VPC
     Type: String
     Default: '10.64.9.32/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitTransitPrivate1AZaSubnetCidr:
-    Description: CIDR block for transit-private1 subnet in AZ a of transit VPC
+    Description: CIDR block for transit-private1 subnet in AZ a of Transit VPC
     Type: String
     Default: '10.64.9.48/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitTransitPrivate1AZbSubnetCidr:
-    Description: CIDR block for transit-private1 subnet in AZ b of transit VPC
+    Description: CIDR block for transit-private1 subnet in AZ b of Transit VPC
     Type: String
     Default: '10.64.9.64/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitTransitPrivate1AZcSubnetCidr:
-    Description: CIDR block for transit-private1 subnet in AZ c of transit VPC
+    Description: CIDR block for transit-private1 subnet in AZ c of Transit VPC
     Type: String
     Default: '10.64.9.80/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   TransitVPCCidr:
-    Description: CIDR block for transit VPC
+    Description: CIDR block for Transit VPC
     Type: String
     Default: '10.64.9.0/21'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
 
   OutboundTransitPublic1AZaSubnetCidr:
-    Description: CIDR block for transit-public1 subnet in AZ a of outbound VPC
+    Description: CIDR block for transit-public1 subnet in AZ a of Outbound VPC
     Type: String
     Default: '10.64.10.0/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundTransitPublic1AZbSubnetCidr:
-    Description: CIDR block for transit-public1 subnet in AZ b of outbound VPC
+    Description: CIDR block for transit-public1 subnet in AZ b of Outbound VPC
     Type: String
     Default: '10.64.10.16/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundTransitPublic1AZcSubnetCidr:
-    Description: CIDR block for transit-public1 subnet in AZ c of outbound VPC
+    Description: CIDR block for transit-public1 subnet in AZ c of Outbound VPC
     Type: String
     Default: '10.64.10.32/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundTransitPrivate1AZaSubnetCidr:
-    Description: CIDR block for transit-private1 subnet in AZ a of outbound VPC
+    Description: CIDR block for transit-private1 subnet in AZ a of Outbound VPC
     Type: String
     Default: '10.64.10.48/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundTransitPrivate1AZbSubnetCidr:
-    Description: CIDR block for transit-private1 subnet in AZ b of outbound VPC
+    Description: CIDR block for transit-private1 subnet in AZ b of Outbound VPC
     Type: String
     Default: '10.64.10.64/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundTransitPrivate1AZcSubnetCidr:
-    Description: CIDR block for transit-private1 subnet in AZ c of outbound VPC
+    Description: CIDR block for transit-private1 subnet in AZ c of Outbound VPC
     Type: String
     Default: '10.64.10.80/28'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   OutboundVPCCidr:
-    Description: CIDR block for outbound VPC
+    Description: CIDR block for Outbound VPC
     Type: String
     Default: '10.64.10.0/21'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+
+  InboundTransitPublic1AZaSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ a of Inbound VPC
+    Type: String
+    Default: '10.64.11.0/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  InboundTransitPublic1AZbSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ b of Inbound VPC
+    Type: String
+    Default: '10.64.11.16/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  InboundTransitPublic1AZcSubnetCidr:
+    Description: CIDR block for transit-public1 subnet in AZ c of Inbound VPC
+    Type: String
+    Default: '10.64.11.32/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  InboundTransitPrivate1AZaSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ a of Inbound VPC
+    Type: String
+    Default: '10.64.11.48/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  InboundTransitPrivate1AZbSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ b of Inbound VPC
+    Type: String
+    Default: '10.64.11.64/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  InboundTransitPrivate1AZcSubnetCidr:
+    Description: CIDR block for transit-private1 subnet in AZ c of Inbound VPC
+    Type: String
+    Default: '10.64.11.80/28'
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+  InboundVPCCidr:
+    Description: CIDR block for Inbound VPC
+    Type: String
+    Default: '10.64.11.0/21'
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
 
@@ -554,7 +597,7 @@ Resources:
       NatGatewayId:
         Ref: "SharedServicesNATGatewayAZc"
 #
-# Add route to shared services vRouters
+# Add route to Shared Services vRouters
 #
   SharedServicesTransitPrivate1AZaSubnetRouteTableAssociation:
     Type: "AWS::EC2::SubnetRouteTableAssociation"
@@ -800,7 +843,7 @@ Resources:
           Key: "Name"
           Value: !Join ['', ["rt-", !FindInMap [VPCName, Transit, Name], '-transit-private2']]
 #
-# Add route to transit vRouters
+# Add route to Transit vRouters
 #
   TransitTransitPrivate1AZaSubnetRouteTableAssociation:
     Type: "AWS::EC2::SubnetRouteTableAssociation"
@@ -1004,7 +1047,7 @@ Resources:
           Key: "Name"
           Value: !Join ['', ["rt-", !FindInMap [VPCName, Outbound, Name], '-transit-private2']]
 #
-# Add route to outbound vRouters
+# Add route to Outbound vRouters
 #
   OutboundTransitPrivate1AZaSubnetRouteTableAssociation:
     Type: "AWS::EC2::SubnetRouteTableAssociation"
@@ -1028,6 +1071,210 @@ Resources:
       RouteTableId:
         Ref: "OutboundTransitPrivate2RouteTable"
 
+
+  InboundVPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      EnableDnsSupport: "true"
+      EnableDnsHostnames: "true"
+      CidrBlock: !Ref 'InboundVPCCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value:
+            Fn::FindInMap:
+              - "VPCName"
+              - "Inbound"
+              - "Name"
+
+  InboundTransitPublic1AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "InboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'InboundTransitPublic1AZaSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, Inbound, Name], '-pub-a-transit-public1']]
+  InboundTransitPublic1AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "InboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'InboundTransitPublic1AZbSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, Inbound, Name], '-pub-b-transit-public1']]
+  InboundTransitPublic1AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "InboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'InboundTransitPublic1AZcSubnetCidr'
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, Inbound, Name], '-pub-c-transit-public1']]
+
+  InboundTransitPrivate1AZaSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "InboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 0, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'InboundTransitPrivate1AZaSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, Inbound, Name], '-priv-a-transit-private1']]
+  InboundTransitPrivate1AZbSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "InboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 1, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'InboundTransitPrivate1AZbSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, Inbound, Name], '-priv-b-transit-private1']]
+  InboundTransitPrivate1AZcSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+        Ref: "InboundVPC"
+      AvailabilityZone:
+        Fn::Sub:
+          - "${AWS::Region}${AZ}"
+          - AZ: !Select [ 2, !FindInMap [ "AZRegion", !Ref "AWS::Region", "AZs" ] ]
+      CidrBlock: !Ref 'InboundTransitPrivate1AZcSubnetCidr'
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["sn-", !FindInMap [VPCName, Inbound, Name], '-priv-c-transit-private1']]
+
+  InboundInternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["igw-", !FindInMap [VPCName, Inbound, Name]]]
+  InboundGatewayToInternet:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId:
+        Ref: "InboundVPC"
+      InternetGatewayId:
+        Ref: "InboundInternetGateway"
+
+  InboundPublicRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "InboundVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, Inbound, Name], '-public']]
+  InboundPublicRoute:
+    Type: "AWS::EC2::Route"
+    DependsOn: "InboundGatewayToInternet"
+    Properties:
+      RouteTableId:
+        Ref: "InboundPublicRouteTable"
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId:
+        Ref: "InboundInternetGateway"
+
+  InboundTransitPublic1AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "InboundTransitPublic1AZaSubnet"
+      RouteTableId:
+        Ref: "InboundPublicRouteTable"
+  InboundTransitPublic1AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "InboundTransitPublic1AZbSubnet"
+      RouteTableId:
+        Ref: "InboundPublicRouteTable"
+  InboundTransitPublic1AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "InboundTransitPublic1AZcSubnet"
+      RouteTableId:
+        Ref: "InboundPublicRouteTable"
+
+  InboundTransitPrivate1RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "InboundVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, Inbound, Name], '-transit-private1']]
+  InboundTransitPrivate2RouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId:
+        Ref: "InboundVPC"
+      Tags:
+        -
+          Key: "Name"
+          Value: !Join ['', ["rt-", !FindInMap [VPCName, Inbound, Name], '-transit-private2']]
+#
+# Add route to Inbound vRouters
+#
+  InboundTransitPrivate1AZaSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "InboundTransitPrivate1AZaSubnet"
+      RouteTableId:
+        Ref: "InboundTransitPrivate1RouteTable"
+  InboundTransitPrivate1AZbSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "InboundTransitPrivate1AZbSubnet"
+      RouteTableId:
+        Ref: "InboundTransitPrivate1RouteTable"
+  InboundTransitPrivate1AZcSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId:
+        Ref: "InboundTransitPrivate1AZcSubnet"
+      RouteTableId:
+        Ref: "InboundTransitPrivate2RouteTable"
+
 Outputs:
 
   SharedServicesVPCId:
@@ -1042,3 +1289,7 @@ Outputs:
     Description: "VPCId of Outbound VPC"
     Value:
       Ref: "OutboundVPC"
+  InboundVPCId:
+    Description: "VPCId of Inbound VPC"
+    Value:
+      Ref: "InboundVPC"
