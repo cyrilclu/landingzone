@@ -70,7 +70,8 @@ def iam_attached_directly_inline_policy():
                 policy_dict['PolicyDoc'] = policydoc_list
                 policy_list.append(policy_dict)
             user_dict['Policy'] = policy_list
-            user_dict['UserName'] = username
+            user_dict['Name'] = username
+            user_dict['Profile'] = 'user_inline'
         if user_dict:
             user_list.append(user_dict)
     return user_list
@@ -97,7 +98,8 @@ def iam_attached_directly_managed_policy():
                 policy_dict['PolicyDoc'] = policydoc_list
                 policy_list.append(policy_dict)
             user_dict['Policy'] = policy_list
-            user_dict['UserName'] = username
+            user_dict['Name'] = username
+            user_dict['Profile'] = 'user_managed'
         if user_dict:
             user_list.append(user_dict)
     return user_list
@@ -124,7 +126,8 @@ def iam_attached_from_group_inline_policy():
                 policy_dict['PolicyDoc'] = policydoc_list
                 policy_list.append(policy_dict)
             group_dict['Policy'] = policy_list
-            group_dict['GroupName'] = groupname
+            group_dict['Name'] = groupname
+            group_dict['Profile'] = 'group_inline'
         if group_dict:
             group_list.append(group_dict)
     return group_list
@@ -151,7 +154,8 @@ def iam_attached_from_group_managed_policy():
                 policy_dict['PolicyDoc'] = policydoc_list
                 policy_list.append(policy_dict)
             group_dict['Policy'] = policy_list
-            group_dict['GroupName'] = groupname
+            group_dict['Name'] = groupname
+            group_dict['Profile'] = 'group_managed'
         if group_dict:
             group_list.append(group_dict)
     return group_list
@@ -178,7 +182,8 @@ def iam_role_inline_policy():
                 policy_dict['PolicyDoc'] = policydoc_list
                 policy_list.append(policy_dict)
             role_dict['Policy'] = policy_list
-            role_dict['RoleName'] = rolename
+            role_dict['Name'] = rolename
+            role_dict['Profile'] = 'role_inline'
         if role_dict:
             role_list.append(role_dict)
     return role_list
@@ -205,21 +210,33 @@ def iam_role_managed_policy():
                 policy_dict['PolicyDoc'] = policydoc_list
                 policy_list.append(policy_dict)
             role_dict['Policy'] = policy_list
-            role_dict['RoleName'] = rolename
+            role_dict['Name'] = rolename
+            role_dict['Profile'] = 'role_managed'
         if role_dict:
             role_list.append(role_dict)
     return role_list
+
+def check_policy(total_list):
+    for total in total_list:
+        for policy in total['Policy']:
+            for doc in policy['PolicyDoc']:
+                print(doc['Action'])
+
+#{'Name': 'cmb-test01', 'Profile': 'User', 'Policy': [ {'PolicyName': 'cmb-ec2all', 'PolicyDoc': [{'Action': u'ec2:*', 'Resource': u'*', 'Effect': u'Allow'}] } ]}
+#if effect == 'deny';
+#    continue
+#else if action is list:
+#    * or ^s3:
+
+
                 
 if __name__ == '__main__':
     user_list = iam_attached_directly_inline_policy() + iam_attached_directly_managed_policy()
-    for key in user_list:
-        print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
     group_list = iam_attached_from_group_inline_policy() + iam_attached_from_group_managed_policy()
-    for key in group_list:
-        print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
     role_list = iam_role_inline_policy() + iam_role_managed_policy()
-    for key in role_list:
+    total_list = user_list + group_list + role_list
+    for key in total_list:
         print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
+    #check_policy(total_list)
     
 
-#{'UserName': 'cmb-test01', 'Policy': [ {'PolicyName': 'cmb-ec2all', 'PolicyDoc': [{'Action': u'ec2:*', 'Resource': u'*', 'Effect': u'Allow'}] } ]}
