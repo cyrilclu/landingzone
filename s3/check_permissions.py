@@ -4,6 +4,7 @@ import json
 client = boto3.client('iam')
 users = client.list_users()
 groups = client.list_groups()
+roles = client.list_roles()
 
 def get_inline_policies(username):
     list_policies = client.list_user_policies(UserName=username)
@@ -27,6 +28,18 @@ def get_group_policy_doc(groupname, policyname):
 
 def get_group_managed_policies(groupname):
     list_policies = client.list_attached_group_policies(GroupName=groupname)
+    return list_policies['AttachedPolicies']
+
+def get_role_policies(rolename):
+    list_policies = client.list_role_policies(RoleName=rolename)
+    return list_policies['PolicyNames']
+
+def get_role_policy_doc(rolename, policyname):
+    policy_doc = client.get_role_policy(RoleName=rolename, PolicyName=policyname)
+    return policy_doc
+
+def get_role_managed_policies(rolename):
+    list_policies = client.list_attached_role_policies(RoleName=rolename)
     return list_policies['AttachedPolicies']
 
 def get_attach_policy(policyarn):
@@ -143,14 +156,70 @@ def iam_attached_from_group_managed_policy():
             group_list.append(group_dict)
     return group_list
 
+def iam_role_inline_policy():
+    role_list = []
+    for role in roles['Roles']:
+        role_dict = {}
+        rolename = role['RoleName']
+        list_managed_policies = get_role_policies(rolename)
+        if list_managed_policies:
+            policy_list = []
+            for policy in list_managed_policies:
+                policy_dict = {}
+                policy_dict['PolicyName'] = policy
+                policy_doc = get_role_policy_doc(rolename, policy)
+                policydoc_list = []
+                for key in policy_doc['PolicyDocument']['Statement']:
+                    policydoc_dict = {}
+                    policydoc_dict['Action'] = key['Action']
+                    policydoc_dict['Resource'] = key['Resource']
+                    policydoc_dict['Effect'] = key['Effect']
+                    policydoc_list.append(policydoc_dict)
+                policy_dict['PolicyDoc'] = policydoc_list
+                policy_list.append(policy_dict)
+            role_dict['Policy'] = policy_list
+            role_dict['RoleName'] = rolename
+        if role_dict:
+            role_list.append(role_dict)
+    return role_list
+
+def iam_role_managed_policy():
+    role_list = []
+    for role in roles['Roles']:
+        role_dict = {}
+        rolename = role['RoleName']
+        list_managed_policies = get_role_managed_policies(rolename)
+        if list_managed_policies:
+            policy_list = []
+            for policy in list_managed_policies:
+                policy_dict = {}
+                policy_dict['PolicyName'] = policy['PolicyName']
+                policy_doc = get_attach_policy(policy['PolicyArn'])
+                policydoc_list = []
+                for key in policy_doc['PolicyVersion']['Document']['Statement']:
+                    policydoc_dict = {}
+                    policydoc_dict['Action'] = key['Action']
+                    policydoc_dict['Resource'] = key['Resource']
+                    policydoc_dict['Effect'] = key['Effect']
+                    policydoc_list.append(policydoc_dict)
+                policy_dict['PolicyDoc'] = policydoc_list
+                policy_list.append(policy_dict)
+            role_dict['Policy'] = policy_list
+            role_dict['RoleName'] = rolename
+        if role_dict:
+            role_list.append(role_dict)
+    return role_list
                 
 if __name__ == '__main__':
-    #user_list = iam_attached_directly_inline_policy() + iam_attached_directly_managed_policy()
-    #for key in user_list:
-    #    print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
-    #group_list = iam_attached_from_group_inline_policy() + iam_attached_from_group_managed_policy()
-    #for key in group_list:
-    #    print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
+    user_list = iam_attached_directly_inline_policy() + iam_attached_directly_managed_policy()
+    for key in user_list:
+        print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
+    group_list = iam_attached_from_group_inline_policy() + iam_attached_from_group_managed_policy()
+    for key in group_list:
+        print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
+    role_list = iam_role_inline_policy() + iam_role_managed_policy()
+    for key in role_list:
+        print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
     
 
 #{'UserName': 'cmb-test01', 'Policy': [ {'PolicyName': 'cmb-ec2all', 'PolicyDoc': [{'Action': u'ec2:*', 'Resource': u'*', 'Effect': u'Allow'}] } ]}
