@@ -216,17 +216,68 @@ def iam_role_managed_policy():
             role_list.append(role_dict)
     return role_list
 
+def check_action():
+    pass
+
+def check_item(item):
+    if item == '*' or 's3:' in item:
+        return 1
+    else:
+        return 0
+
+def check_resource(resource):
+    number = 0
+    if isinstance(resource, list):
+        for res in resource:
+            number = check_item(res)
+            if number == 0:
+                continue
+            else:
+                return number
+        return number
+    elif isinstance(resource, unicode):
+        number = check_item(resource)
+        return number
+    else:
+        return number
+
+def check_action(action, resource):
+    number = 0
+    if isinstance(action, list):
+        for act in action:
+            number = check_item(act)
+            if number == 0:
+                continue
+            else:
+                number = check_resource(resource)
+                return number
+        return number
+    elif isinstance(action, unicode):
+        number = check_item(action)
+        if number == 0:
+            return number
+        else:
+            number = check_resource(resource)
+            return number
+    else:
+        return number
+
 def check_policy(total_list):
     for total in total_list:
+        number = 0
+        list_number = []
         for policy in total['Policy']:
             for doc in policy['PolicyDoc']:
-                print(doc['Action'])
+                if doc['Effect'] == 'Deny':
+                    continue
+                number = check_action(doc['Action'], doc['Resource'])
+                list_number.append(number)
+        summation = sum(list_number)
+        #if summation != 0:
+        #    print("%s: %s has permission to Amazon S3 bucket:" % (total['Profile'], total['Name']))
+        #    print("%s" % (total['Policy']))
 
 #{'Name': 'cmb-test01', 'Profile': 'User', 'Policy': [ {'PolicyName': 'cmb-ec2all', 'PolicyDoc': [{'Action': u'ec2:*', 'Resource': u'*', 'Effect': u'Allow'}] } ]}
-#if effect == 'deny';
-#    continue
-#else if action is list:
-#    * or ^s3:
 
 
                 
@@ -235,8 +286,8 @@ if __name__ == '__main__':
     group_list = iam_attached_from_group_inline_policy() + iam_attached_from_group_managed_policy()
     role_list = iam_role_inline_policy() + iam_role_managed_policy()
     total_list = user_list + group_list + role_list
-    for key in total_list:
-        print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
-    #check_policy(total_list)
+    #for key in total_list:
+    #    print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
+    check_policy(total_list)
     
 
