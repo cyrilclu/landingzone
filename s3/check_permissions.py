@@ -216,9 +216,6 @@ def iam_role_managed_policy():
             role_list.append(role_dict)
     return role_list
 
-def check_action():
-    pass
-
 def check_item(item):
     if item == '*' or 's3:' in item:
         return 1
@@ -274,11 +271,9 @@ def check_policy(total_list):
                 list_number.append(number)
         summation = sum(list_number)
         #if summation != 0:
-        #    print("%s: %s has permission to Amazon S3 bucket:" % (total['Profile'], total['Name']))
-        #    print("%s" % (total['Policy']))
+            #print("%s: %s has permission to Amazon S3 bucket:" % (total['Profile'], total['Name']))
+            #print("%s" % (total['Policy']))
 
-#{'Name': 'cmb-test01', 'Profile': 'User', 'Policy': [ {'PolicyName': 'cmb-ec2all', 'PolicyDoc': [{'Action': u'ec2:*', 'Resource': u'*', 'Effect': u'Allow'}] } ]}
-#{'Name': 'cmb-bucket01', 'Profile': 'S3 Bucket', 'Policy': [{'Action': 'S3:*', 'Resource': '*', 'Effect': 'Allow', 'Principal': '*'}] }
 
 s3 = boto3.client('s3')
 buckets = s3.list_buckets()
@@ -286,6 +281,9 @@ def get_s3_bucket_policy(bucketname):
     policy_dict = {}
     try:
         bucket_policy = s3.get_bucket_policy(Bucket=bucketname)
+    except Exception as e:
+        return policy_dict
+    else:
         policy = eval(bucket_policy['Policy'])
         statement = policy['Statement']
         policy_dict['Name'] = bucketname
@@ -300,8 +298,6 @@ def get_s3_bucket_policy(bucketname):
             policydoc_list.append(policydoc_dict)
         policy_dict['Policy'] = policydoc_list
         return policy_dict
-    except Exception as e:
-        return policy_dict
 
 def s3_bucket_policy():
     bucket_list = []
@@ -311,6 +307,68 @@ def s3_bucket_policy():
         if bucket_dict:
             bucket_list.append(bucket_dict)
     return bucket_list
+
+def analyze_user_role(principal_aws):
+    if ':user/' in principal_aws:
+        return principal_aws.rsplit('/', 1)[-1], "user"
+    elif ':role/' in principal_aws:
+        return principal_aws.rsplit('/', 1)[-1], "role"
+    else:
+        print("Principal: %s" % principal_aws)
+        return None, None
+
+def analyze_principal_aws(principal_aws):
+    principal_list = []
+    if isinstance(principal_aws, list):
+        for pa in principal_aws:
+            principal_dict = {}
+            principal_name, principal_profile = analyze_user_role(pa)
+            if principal_name:
+                principal_dict['principal_name'] = principal_name
+                principal_dict['principal_profile'] = principal_profile
+                principal_list.append(principal_dict)
+    elif isinstance(principal_aws, str):
+        principal_dict = {}
+        principal_name, principal_profile = analyze_user_role(principal_aws)
+        if principal_name:
+            principal_dict['principal_name'] = principal_name
+            principal_dict['principal_profile'] = principal_profile
+            principal_list.append(principal_dict)
+    return principal_list
+
+def analyze_principal(principal):
+    if isinstance(principal, dict):
+        principal_aws = principal['AWS']
+        user_role_list = analyze_principal_aws(principal_aws)
+        return user_role_list
+    elif principal == '*':
+        return []
+    else:
+        print("Principal: %s" % principal)
+        return []
+
+def check_s3_policy(s3_bucket_list):
+    s3_permission_deny_list = []
+    s3_permission_allow_list = []
+    for bucket in s3_bucket_list:
+        for policy in bucket['Policy']:
+            s3_permission_dict = {}
+            if policy['Effect'] == 'Deny':
+                principal = policy['Principal']
+                s3_permission_dict['IAMProfile'] = analyze_principal(principal)
+                s3_permission_dict['BucketName'] = bucket['Name']
+                s3_permission_deny_list.append(s3_permission_dict)
+            if policy['Effect'] == 'Allow':
+                principal = policy['Principal']
+                s3_permission_dict['IAMProfile'] = analyze_principal(principal)
+                s3_permission_dict['BucketName'] = bucket['Name']
+                s3_permission_allow_list.append(s3_permission_dict)
+    return s3_permission_allow_list, s3_permission_deny_list
+
+
+#{'Name': 'cmb-test01', 'Profile': 'User', 'Policy': [ {'PolicyName': 'cmb-ec2all', 'PolicyDoc': [{'Action': u'ec2:*', 'Resource': u'*', 'Effect': u'Allow'}] } ]}
+#{'Name': 'cmb-bucket01', 'Profile': 'S3 Bucket', 'Policy': [{'Action': 'S3:*', 'Resource': '*', 'Effect': 'Allow', 'Principal': '*'}] }
+#{'BucketName': 'weqweq', 'IAMProfile': [{'principal_name': 'clu', 'principal_profile': 'user'}]}
                 
 if __name__ == '__main__':
     #user_list = iam_attached_directly_inline_policy() + iam_attached_directly_managed_policy()
@@ -319,9 +377,10 @@ if __name__ == '__main__':
     #iam_list = user_list + group_list + role_list
     #for key in iam_list:
     #    print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
-    #check_policy(total_list)
+    #check_policy(iam_list)
     s3_bucket_list = s3_bucket_policy()
-    for key in s3_bucket_list:
+    l = check_s3_policy(s3_bucket_list)
+    for key in l:
         print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
     
 
