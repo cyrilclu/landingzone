@@ -1,11 +1,6 @@
 import boto3
 import json
 
-iam = boto3.client('iam')
-users = iam.list_users()
-groups = iam.list_groups()
-roles = iam.list_roles()
-
 def get_inline_policies(username):
     list_policies = iam.list_user_policies(UserName=username)
     return list_policies['PolicyNames']
@@ -216,50 +211,50 @@ def iam_role_managed_policy():
             role_list.append(role_dict)
     return role_list
 
-def check_item(item):
-    if item == '*' or 's3:' in item:
+def check_item(item, bucketname):
+    if item == '*' or 's3:*' in item or bucketname in item:
         return 1
     else:
         return 0
 
-def check_resource(resource):
+def check_resource(resource, bucketname):
     number = 0
     if isinstance(resource, list):
         for res in resource:
-            number = check_item(res)
+            number = check_item(res, bucketname)
             if number == 0:
                 continue
             else:
                 return number
         return number
     elif isinstance(resource, unicode):
-        number = check_item(resource)
+        number = check_item(resource, bucketname)
         return number
     else:
         return number
 
-def check_action(action, resource):
+def check_action(action, resource, bucketname):
     number = 0
     if isinstance(action, list):
         for act in action:
-            number = check_item(act)
+            number = check_item(act, bucketname)
             if number == 0:
                 continue
             else:
-                number = check_resource(resource)
+                number = check_resource(resource, bucketname)
                 return number
         return number
     elif isinstance(action, unicode):
-        number = check_item(action)
+        number = check_item(action, bucketname)
         if number == 0:
             return number
         else:
-            number = check_resource(resource)
+            number = check_resource(resource, bucketname)
             return number
     else:
         return number
 
-def check_policy(total_list):
+def check_policy(total_list, bucketname):
     for total in total_list:
         number = 0
         list_number = []
@@ -267,19 +262,16 @@ def check_policy(total_list):
             for doc in policy['PolicyDoc']:
                 if doc['Effect'] == 'Deny':
                     continue
-                number = check_action(doc['Action'], doc['Resource'])
+                number = check_action(doc['Action'], doc['Resource'], bucketname)
                 list_number.append(number)
         summation = sum(list_number)
         if summation != 0:
-            print("%s: %s has permission to Amazon S3 bucket:" % (total['Profile'], total['Name']))
-            #print("%s" % (total['Policy']))
+            print("%s(%s) has permission to Amazon S3 bucket: %s" % (total['Name'], total['Profile'], bucketname))
 
-s3 = boto3.client('s3')
-buckets = s3.list_buckets()
 def get_s3_bucket_policy(bucketname):
     policy_dict = {}
     try:
-        bucket_policy = s3.get_bucket_policy(Bucket=bucketname)
+        bucket_policy = s3cli.get_bucket_policy(Bucket=bucketname)
     except Exception as e:
         return policy_dict
     else:
@@ -298,13 +290,14 @@ def get_s3_bucket_policy(bucketname):
         policy_dict['Policy'] = policydoc_list
         return policy_dict
 
-def s3_bucket_policy():
+def s3_bucket_policy(mybucketname):
     bucket_list = []
     for bucket in buckets['Buckets']:
         bucketname = bucket['Name']
-        bucket_dict = get_s3_bucket_policy(bucketname)
-        if bucket_dict:
-            bucket_list.append(bucket_dict)
+        if mybucketname == bucketname:
+            bucket_dict = get_s3_bucket_policy(bucketname)
+            if bucket_dict:
+                bucket_list.append(bucket_dict)
     return bucket_list
 
 def analyze_user_role(principal_aws):
@@ -364,12 +357,24 @@ def check_s3_policy(s3_bucket_list):
 #{'Name': 'cmb-bucket01', 'Profile': 'S3 Bucket', 'Policy': [{'Action': 'S3:*', 'Resource': '*', 'Effect': 'Allow', 'Principal': '*'}] }
                 
 if __name__ == '__main__':
-    user_list = iam_attached_directly_inline_policy() + iam_attached_directly_managed_policy()
-    group_list = iam_attached_from_group_inline_policy() + iam_attached_from_group_managed_policy()
-    role_list = iam_role_inline_policy() + iam_role_managed_policy()
-    iam_list = user_list + group_list + role_list
-    #for key in iam_list:
-    #    print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
-    check_policy(iam_list)
-    s3_bucket_list = s3_bucket_policy()
-    check_s3_policy(s3_bucket_list)
+    iam = boto3.client('iam')
+    users = iam.list_users()
+    groups = iam.list_groups()
+    roles = iam.list_roles()
+    s3cli = boto3.client('s3')
+    buckets = s3cli.list_buckets()
+    bucketname = ''
+    while not bucketname or bucketname.isspace():
+        bucketname = raw_input("Enter your S3 bucket name: ")
+    print("==============================================")
+    s3res = boto3.resource('s3')
+    if s3res.Bucket(bucketname) not in s3res.buckets.all():
+        print("Your S3 bucket %s is not exist." % bucketname)
+    else:
+        user_list = iam_attached_directly_inline_policy() + iam_attached_directly_managed_policy()
+        group_list = iam_attached_from_group_inline_policy() + iam_attached_from_group_managed_policy()
+        role_list = iam_role_inline_policy() + iam_role_managed_policy()
+        iam_list = user_list + group_list + role_list
+        check_policy(iam_list, bucketname)
+        s3_bucket_list = s3_bucket_policy(bucketname)
+        check_s3_policy(s3_bucket_list)
