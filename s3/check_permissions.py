@@ -1,50 +1,50 @@
 import boto3
 import json
 
-client = boto3.client('iam')
-users = client.list_users()
-groups = client.list_groups()
-roles = client.list_roles()
+iam = boto3.client('iam')
+users = iam.list_users()
+groups = iam.list_groups()
+roles = iam.list_roles()
 
 def get_inline_policies(username):
-    list_policies = client.list_user_policies(UserName=username)
+    list_policies = iam.list_user_policies(UserName=username)
     return list_policies['PolicyNames']
     
 def get_policy_doc(username, policyname):
-    policy_doc = client.get_user_policy(UserName=username, PolicyName=policyname)
+    policy_doc = iam.get_user_policy(UserName=username, PolicyName=policyname)
     return policy_doc
 
 def get_managed_policies(username):
-    list_policies = client.list_attached_user_policies(UserName=username)
+    list_policies = iam.list_attached_user_policies(UserName=username)
     return list_policies['AttachedPolicies']
 
 def get_group_policies(groupname):
-    list_policies = client.list_group_policies(GroupName=groupname)
+    list_policies = iam.list_group_policies(GroupName=groupname)
     return list_policies['PolicyNames']
 
 def get_group_policy_doc(groupname, policyname):
-    policy_doc = client.get_group_policy(GroupName=groupname, PolicyName=policyname)
+    policy_doc = iam.get_group_policy(GroupName=groupname, PolicyName=policyname)
     return policy_doc
 
 def get_group_managed_policies(groupname):
-    list_policies = client.list_attached_group_policies(GroupName=groupname)
+    list_policies = iam.list_attached_group_policies(GroupName=groupname)
     return list_policies['AttachedPolicies']
 
 def get_role_policies(rolename):
-    list_policies = client.list_role_policies(RoleName=rolename)
+    list_policies = iam.list_role_policies(RoleName=rolename)
     return list_policies['PolicyNames']
 
 def get_role_policy_doc(rolename, policyname):
-    policy_doc = client.get_role_policy(RoleName=rolename, PolicyName=policyname)
+    policy_doc = iam.get_role_policy(RoleName=rolename, PolicyName=policyname)
     return policy_doc
 
 def get_role_managed_policies(rolename):
-    list_policies = client.list_attached_role_policies(RoleName=rolename)
+    list_policies = iam.list_attached_role_policies(RoleName=rolename)
     return list_policies['AttachedPolicies']
 
 def get_attach_policy(policyarn):
-    policy = client.get_policy(PolicyArn=policyarn)
-    policy_version = client.get_policy_version(PolicyArn=policyarn, VersionId=policy['Policy']['DefaultVersionId'])
+    policy = iam.get_policy(PolicyArn=policyarn)
+    policy_version = iam.get_policy_version(PolicyArn=policyarn, VersionId=policy['Policy']['DefaultVersionId'])
     return policy_version
 
 
@@ -278,16 +278,50 @@ def check_policy(total_list):
         #    print("%s" % (total['Policy']))
 
 #{'Name': 'cmb-test01', 'Profile': 'User', 'Policy': [ {'PolicyName': 'cmb-ec2all', 'PolicyDoc': [{'Action': u'ec2:*', 'Resource': u'*', 'Effect': u'Allow'}] } ]}
+#{'Name': 'cmb-bucket01', 'Profile': 'S3 Bucket', 'Policy': [{'Action': 'S3:*', 'Resource': '*', 'Effect': 'Allow', 'Principal': '*'}] }
 
+s3 = boto3.client('s3')
+buckets = s3.list_buckets()
+def get_s3_bucket_policy(bucketname):
+    policy_dict = {}
+    try:
+        bucket_policy = s3.get_bucket_policy(Bucket=bucketname)
+        policy = eval(bucket_policy['Policy'])
+        statement = policy['Statement']
+        policy_dict['Name'] = bucketname
+        policy_dict['Profile'] = "s3_bucket"
+        policydoc_list = []
+        for key in statement:
+            policydoc_dict = {}
+            policydoc_dict['Action'] = key['Action']
+            policydoc_dict['Effect'] = key['Effect']
+            policydoc_dict['Principal'] = key['Principal']
+            policydoc_dict['Resource'] = key['Resource']
+            policydoc_list.append(policydoc_dict)
+        policy_dict['Policy'] = policydoc_list
+        return policy_dict
+    except Exception as e:
+        return policy_dict
 
+def s3_bucket_policy():
+    bucket_list = []
+    for bucket in buckets['Buckets']:
+        bucketname = bucket['Name']
+        bucket_dict = get_s3_bucket_policy(bucketname)
+        if bucket_dict:
+            bucket_list.append(bucket_dict)
+    return bucket_list
                 
 if __name__ == '__main__':
-    user_list = iam_attached_directly_inline_policy() + iam_attached_directly_managed_policy()
-    group_list = iam_attached_from_group_inline_policy() + iam_attached_from_group_managed_policy()
-    role_list = iam_role_inline_policy() + iam_role_managed_policy()
-    total_list = user_list + group_list + role_list
-    #for key in total_list:
+    #user_list = iam_attached_directly_inline_policy() + iam_attached_directly_managed_policy()
+    #group_list = iam_attached_from_group_inline_policy() + iam_attached_from_group_managed_policy()
+    #role_list = iam_role_inline_policy() + iam_role_managed_policy()
+    #iam_list = user_list + group_list + role_list
+    #for key in iam_list:
     #    print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
-    check_policy(total_list)
+    #check_policy(total_list)
+    s3_bucket_list = s3_bucket_policy()
+    for key in s3_bucket_list:
+        print json.dumps(key, sort_keys=True, indent=4, separators=(',', ':'))
     
 
